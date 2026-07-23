@@ -9,5 +9,6 @@
         "major":3,
         "minor":0,
         "patch":0
-    }
+    },
+    "directDownloadURL":"https://github.com/LazyWizard/lazylib/releases/download/3.0/LazyLib.3.0.zip",
 }
