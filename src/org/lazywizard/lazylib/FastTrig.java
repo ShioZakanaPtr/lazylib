@@ -41,6 +41,38 @@ public class FastTrig
         return radians;
     }
 
+    private static double sinQuartic(double x) // inline
+    {
+        return Math.fma(x, Math.fma(x, Math.fma(x, Math.fma(x, 0.028713815256377853d, -0.20358090709887086d), 0.019965253315485060d), 0.99615005303669568d), 0.00012052567744297745d);
+    }
+
+    private static double cosQuartic(double x) // inline
+    {
+        return Math.fma(x, Math.fma(x, Math.fma(x, Math.fma(x, 0.028713815256378741d, 0.023166684966924631d), -0.51429617377432668d), 0.0029202661377637799d), 0.99990758164524929d);
+    }
+
+    public static double sin(double radians)
+    {
+        if (Math.abs(radians) > 1e15d) return Math.sin(radians);
+        final double n = Math.rint(radians * (1.0d / Math.PI)),
+                r = Math.fma(n, -1.2246467991473532E-16d, Math.fma(n, -Math.PI, radians)),
+                // in 16777216 uniform samples under [0.0, 0.5pi]: error = [-0.0001184373484354d, 0.0001205256774430d], delta ~ 0.0001205
+                // in 16777216 uniform samples under [-2pi, 2pi]:  error = [-0.0001205256774430d, 0.0001205256774430d], delta ~ 0.0001205
+                sinR = Math.copySign(sinQuartic(Math.abs(r)), r);
+        return ((long) n & 1L) > 0L ? -sinR : sinR;
+    }
+
+    public static double cos(double radians)
+    {
+        if (Math.abs(radians) > 1e15d) return Math.cos(radians);
+        final double n = Math.rint(radians * (1.0d / Math.PI)),
+                r = Math.fma(n, -1.2246467991473532E-16d, Math.fma(n, -Math.PI, radians)),
+                // in 16777216 uniform samples under [0.0, 0.5pi]: error = [-0.0001184373484354d, 0.0001205256774428d], delta ~ 0.0001205
+                // in 16777216 uniform samples under [-2pi, 2pi]:  error = [-0.0001205253169850d, 0.0001205245960702d], delta ~ 0.0001205
+                cosR = cosQuartic(Math.abs(r));
+        return ((long) n & 1L) > 0L ? -cosR : cosR;
+    }
+
     /**
      * Get the sine of an angle.
      * <p>
@@ -53,7 +85,7 @@ public class FastTrig
      * @author JeffK (taken from the <a href="http://slick.ninjacave.com/">Slick2D</a> game library)
      * @since 1.0
      */
-    public static double sin(double radians)
+    public static double sin_Slick2D(double radians)
     {
         radians = reduceSinAngle(radians); // limits angle to between -PI/2 and +PI/2
         if (Math.abs(radians) <= Math.PI / 4.0)
@@ -78,9 +110,9 @@ public class FastTrig
      * @author JeffK (taken from the <a href="http://slick.ninjacave.com/">Slick2D</a> game library)
      * @since 1.0
      */
-    public static double cos(double radians)
+    public static double cos_Slick2D(double radians)
     {
-        return sin(radians + Math.PI / 2.0);
+        return sin_Slick2D(radians + Math.PI / 2.0);
     }
 
     /**
