@@ -438,7 +438,7 @@ class LazyFont private constructor(
 
     // DO NOT use `getRGBComponents`
     // Keep inline
-    inline fun uint8Color(c: Color): Float {
+    private inline fun uint8Color(c: Color): Float {
         val bits = c.rgb
         return Float.fromBits(bits and 0xff00ff00.toInt() or (bits shr 16 and 0xff) or (bits shl 16 and 0xff0000))
     }
