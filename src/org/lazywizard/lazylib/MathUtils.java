@@ -486,6 +486,13 @@ public class MathUtils
         return getPointOnCircumference(center, radius, rng.nextFloat() * 360f);
     }
 
+    public static Vector2f getRandomPointOnArc(@Nullable Vector2f center, float radius, float facingAngleDeg, float centralAngleDeg)
+    {
+        final double arcRad = Math.toRadians(centralAngleDeg == 0.0f ? facingAngleDeg : facingAngleDeg + centralAngleDeg * (rng.nextDouble() - 0.5d));
+        return new Vector2f((float) FastTrig.cos(arcRad) * radius + (center != null ? center.x : 0.0f),
+                (float) FastTrig.sin(arcRad) * radius + (center != null ? center.y : 0.0f));
+    }
+
     /**
      * Returns a random point inside of a circle with uniform distribution.
      *
