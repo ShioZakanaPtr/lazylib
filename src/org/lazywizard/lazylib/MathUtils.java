@@ -319,16 +319,11 @@ public class MathUtils
      */
     public static float clampAngle(float angle)
     {
-        if ((angle < -360) || (angle >= 360))
+        if (Math.abs(angle) >= 360.0f)
         {
-            angle %= 360;
+            angle = Math.abs(angle) > 2e6f ? angle % 360.0f : Math.fma((float) Math.rint(angle * (1.0f / 360.0f)), -360.0f, angle);
         }
-
-        if (angle < 0)
-        {
-            angle += 360;
-        }
-
+        if (angle < 0.0f) angle += 360.0f;
         return angle;
     }
 
