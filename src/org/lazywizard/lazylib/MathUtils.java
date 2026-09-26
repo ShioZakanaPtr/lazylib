@@ -321,7 +321,7 @@ public class MathUtils
     {
         if (Math.abs(angle) >= 360.0f)
         {
-            angle = Math.abs(angle) > 2e6f ? angle % 360.0f : Math.fma((float) Math.rint(angle * (1.0f / 360.0f)), -360.0f, angle);
+            angle = Math.abs(angle) > 2e6f ? angle % 360.0f : (float) Math.fma(Math.rint(angle * (1.0f / 360.0f)), -360.0d, angle);
         }
         if (angle < 0.0f) angle += 360.0f;
         return angle;
