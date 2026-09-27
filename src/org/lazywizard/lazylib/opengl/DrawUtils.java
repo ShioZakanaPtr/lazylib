@@ -1,6 +1,5 @@
 package org.lazywizard.lazylib.opengl;
 
-import org.lazywizard.lazylib.FastTrig;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
