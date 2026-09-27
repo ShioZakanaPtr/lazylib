@@ -321,7 +321,8 @@ public class MathUtils
     {
         if (Math.abs(angle) >= 360.0f)
         {
-            angle = Math.abs(angle) > 2e6f ? angle % 360.0f : (float) Math.fma(Math.rint(angle * (1.0f / 360.0f)), -360.0d, angle);
+            angle = Math.abs(angle) > 2e6f
+                    ? angle % 360.0f : (float) Math.fma(Math.rint(angle * (1.0f / 360.0f)), -360.0d, angle);
         }
         if (angle < 0.0f) angle += 360.0f;
         return angle;
@@ -488,7 +489,8 @@ public class MathUtils
 
     public static Vector2f getRandomPointOnArc(@Nullable Vector2f center, float radius, float facingAngleDeg, float centralAngleDeg)
     {
-        final double arcRad = Math.toRadians(centralAngleDeg == 0.0f ? facingAngleDeg : facingAngleDeg + centralAngleDeg * (rng.nextDouble() - 0.5d));
+        final double arcRad = Math.toRadians(centralAngleDeg == 0.0f
+                ? facingAngleDeg : facingAngleDeg + centralAngleDeg * (rng.nextDouble() - 0.5d));
         return new Vector2f((float) FastTrig.cos(arcRad) * radius + (center != null ? center.x : 0.0f),
                 (float) FastTrig.sin(arcRad) * radius + (center != null ? center.y : 0.0f));
     }
